@@ -1,17 +1,18 @@
 FROM alpine:latest
 
-# လိုအပ်သော Tools များ သွင်းယူခြင်း
-RUN apk add --no-cache --update wget unzip cloudflared
+RUN apk add --no-cache wget unzip ca-certificates
 
-# V2Ray Core ကို Install လုပ်ခြင်း
+# V2Ray တင်ခြင်း
 RUN wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip && \
     unzip v2ray-linux-64.zip && \
     chmod +x v2ray && \
     rm v2ray-linux-64.zip
 
-# မိမိ၏ Config ဖိုင်ကို ကူးထည့်ခြင်း
+# Cloudflared တင်ခြင်း (Alternative Way)
+RUN wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /usr/local/bin/cloudflared && \
+    chmod +x /usr/local/bin/cloudflared
+
 COPY config.json /etc/v2ray/config.json
 
-# V2Ray နှင့် Cloudflared Tunnel ကို တစ်ပြိုင်နက် Run ခြင်း
-# Railway Variables ထဲတွင် TUNNEL_TOKEN ကို ထည့်ထားပေးရန် လိုအပ်သည်
+# Railway ရဲ့ Variables ထဲမှာ TUNNEL_TOKEN ရှိဖို့လိုပါတယ်
 CMD ./v2ray run -c /etc/v2ray/config.json & cloudflared tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
