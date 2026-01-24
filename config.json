@@ -6,7 +6,7 @@
       "settings": {
         "clients": [
           {
-            "id": "ad60029b-2f3b-4654-9988-51820b220302", 
+            "id": "e79f1f25-51ee-4916-b705-8f82c30cf8fc", 
             "level": 0
           }
         ],
@@ -15,7 +15,7 @@
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
-          "path": "/your-path" 
+          "path": "/vlessproxy" 
         }
       }
     }
